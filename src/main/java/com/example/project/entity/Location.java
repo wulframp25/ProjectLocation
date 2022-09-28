@@ -27,7 +27,7 @@ public class Location {
     private Long fkUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_uer", insertable = false, updatable = false)
+    @JoinColumn(name = "fk_user", insertable = false, updatable = false)
     private User idUser;
 
     public Long getId() {
