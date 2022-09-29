@@ -1,5 +1,6 @@
 package com.example.project.service;
 
+import com.example.project.entity.User;
 import com.example.project.repository.LocationRepository;
 import com.example.project.entity.Location;
 import com.example.project.exception.BusinessException;
@@ -7,6 +8,7 @@ import com.example.project.util.Messages;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -33,6 +35,11 @@ public class LocationService {
             throw new BusinessException(messages.get("location.id.void"));
         }
         return locationRepository.save(location);
+    }
+
+    public List<Location> findByFkUser(Long idUser) {
+        return locationRepository.findByFkUser(idUser);
+
     }
 
 

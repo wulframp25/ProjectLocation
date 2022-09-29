@@ -16,7 +16,7 @@ public class LocationDTO {
     @NotNull
     private String currentLatitude;
     private long fkUser;
-    private User idUser;
+
 
     public long getId() {
         return id;
@@ -30,7 +30,7 @@ public class LocationDTO {
         return latitude;
     }
 
-    public void setLatitude(String latitud) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
@@ -66,11 +66,4 @@ public class LocationDTO {
         this.fkUser = fkUser;
     }
 
-    public User getIdUser() {
-        return idUser;
     }
-
-    public void setIdUser(User idUser) {
-        this.idUser = idUser;
-    }
-}

@@ -3,6 +3,7 @@ package com.example.project.controller;
 import com.example.project.facade.LocationFacade;
 import com.example.project.exception.DataNotFoundException;
 import com.example.project.model.LocationDTO;
+import com.example.project.model.UserDTO;
 import com.example.project.util.Messages;
 import com.example.project.util.StandardResponse;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/location")
@@ -32,7 +34,7 @@ public class LocationController {
             @ApiResponse(code = 200, message = "Location saved successfully"),
             @ApiResponse(code = 400, message = "The request is invalid"),
             @ApiResponse(code = 500, message = "Internal error processing response")})
-    public ResponseEntity<StandardResponse<LocationDTO>> saveLocation (@Valid @RequestBody LocationDTO location) {
+    public ResponseEntity<StandardResponse<LocationDTO>> saveLocation ( @RequestBody LocationDTO location) {
         return ResponseEntity.ok(new StandardResponse<>(StandardResponse.StatusStandardResponse.OK, messages.get("location.save.success"), locationFacade.saveLocation(location)));
     }
 
@@ -46,7 +48,7 @@ public class LocationController {
         return ResponseEntity.ok(new StandardResponse<>(StandardResponse.StatusStandardResponse.OK, messages.get("location.update.success"), locationFacade.updateLocation(location)));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "Allows you to delete a location")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Location deleted successfully"),
@@ -59,6 +61,16 @@ public class LocationController {
         } catch (DataIntegrityViolationException e) {
             throw new DataNotFoundException(messages.get("location.delete.error"));
         }
+    }
+
+    @GetMapping("/{idUser}")
+    @ApiOperation(value = "Allows you to search for a location by user id", response = List.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The location was queried successfully"),
+            @ApiResponse(code = 400, message = "The request is invalid"),
+            @ApiResponse(code = 500, message = "Internal error processing response")})
+    public ResponseEntity<StandardResponse<List<LocationDTO>>> findByFkUser(@PathVariable long idUser) {
+        return ResponseEntity.ok(new StandardResponse<>(StandardResponse.StatusStandardResponse.OK, locationFacade.findByFkUser(idUser)));
     }
 
 }
